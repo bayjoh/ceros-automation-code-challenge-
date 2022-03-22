@@ -1,11 +1,20 @@
-import swaglabsLoginPage from "../pages/swagLabsLoginPage.js";
+import loginPage from "../pages/loginPage/loginPage";
+import inventoryPage from "../pages/inventoryPage/inventoryPage";
+
+import { loginDetails,
+         pageData } from "../helpers/testData";
 
 describe ('Swag Labs tests', () => {
     beforeAll(async () => {
-        await swaglabsLoginPage.goto();
+        await loginPage.goto();
     });
 
     it('should log in with standard user', async ()=> {
+        expect(await loginPage.inputUserName.isDisplayed()).toBe(true);
+        expect(await loginPage.inputPassword.isDisplayed()).toBe(true);
+        await loginPage.loginUser(loginDetails.username, loginDetails.password);
+        expect(browser.getCurrentUrl()).toEqual(pageData.inventoryUrl);
+        expect(await inventoryPage.inventoryHeader.getText()).toEqual(pageData.invertoryHeader);
     });
 
     it('should add an item to the cart', async () => {
