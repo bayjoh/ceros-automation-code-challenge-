@@ -10,6 +10,9 @@ class InventoryPage extends BasePage {
         this.cartItemCount = $(inventory.totalCartItem);
         this.addTocart = $$(inventory.addToCartButton);
         this.viewCart = $(inventory.viewCartButton);
+        this.sortProductNameInDescOrder = $(inventory.sortNameDescOption);
+        this.sortProductPriceInDescOrder = $(inventory.sortPriceDescOption);
+        this.sortOption = $(inventory.sortDropDown);
     }
 
 }

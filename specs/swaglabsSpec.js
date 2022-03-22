@@ -11,7 +11,9 @@ import  thankYouPage from "../pages/thankYouPage/thankYouPage";
 import { loginDetails,
          pageData,
          productList,
-         userDetails } from "../helpers/testData";
+         userDetails,
+         sortedProductListByName,
+         sortedProductListByPrice } from "../helpers/testData";
 
 describe ('Swag Labs tests', () => {
     beforeAll(async () => {
@@ -71,29 +73,59 @@ describe ('Swag Labs tests', () => {
         var orderItemName = await orderItem.$(overview.productName);
         var orderItemPrice = await orderItem.$(overview.productPrice);
         var orderItemQuantity = await orderItem.$(overview.productQuantity);
-        expect(orderItemName.isDisplayed()).toBe(true);
-        expect(orderItemName.isDisplayed().getText()).toEqual(productList[0].name);
-        expect(orderItemPrice.isDisplayed()).toBe(true);
-        expect(orderItemPrice.isDisplayed().getText()).toEqual(productList[0].price);
-        expect(orderItemQuantity.isDisplayed()).toBe(true);
-        expect(orderItemQuantity.getText()).toEqual(pageData.productQuantity);
+        expect(await orderItemName.isDisplayed()).toBe(true);
+        expect(await orderItemName.isDisplayed().getText()).toEqual(productList[0].name);
+        expect(await orderItemPrice.isDisplayed()).toBe(true);
+        expect(await orderItemPrice.isDisplayed().getText()).toEqual(productList[0].price);
+        expect(await orderItemQuantity.isDisplayed()).toBe(true);
+        expect(await orderItemQuantity.getText()).toEqual(pageData.productQuantity);
         var summary = await overviewPage.summaryInfo;
         summary.forEach(summaryInfo=> {
             expect(summaryInfo.isDisplayed()).toBe(true);
         });  
         await overviewPage.finishButton.click();
-        expect(await thankYouPage.completeOrderText.getText()).toEqual("THANK YOU FOR YOUR ORDER");  
-        expect(await thankYouPage.completeOrderImage.getAttribute('src')).toEqual("https://www.saucedemo.com/static/media/pony-express.46394a5d.png");
+
+        expect(browser.getCurrentUrl()).toEqual(pageData.thankYouUrl);
+        expect(await thankYouPage.completeOrderText.getText()).toEqual(pageData.thankYouMessage);  
+        expect(await thankYouPage.completeOrderImage.getAttribute('src')).toEqual(pageData.thankYouImage);
         expect(await thankYouPage.goHomeButton.isDisplayed()).toBe(true);
         await thankYouPage.goHomeButton.click();
+
+        expect(browser.getCurrentUrl()).toEqual(pageData.inventoryUrl);
     });
 
     // BONUS tests! Not required for the automation challenge, but do these if you can.
     it('sort the inventory items by price, high-to-low', async () => {
+        await inventoryPage.sortOption.click();
+        await inventoryPage.sortProductPriceInDescOrder.click();
 
+        var sortedProducts = await inventoryPage.inventoryProducts;
+
+        for(let sortedProduct in sortedProducts){
+            var sortedName = await sortedProducts[sortedProduct].$(inventory.productName).getText();
+            var sortedPrice = await sortedProducts[sortedProduct].$(inventory.productPrice).getText();
+            var sortedDesc = await sortedProducts[sortedProduct].$(inventory.productDescription).getText();
+            expect(sortedName).toEqual(sortedProductListByPrice[sortedProduct].name);
+            expect(sortedPrice).toEqual(sortedProductListByPrice[sortedProduct].price);
+            expect(sortedDesc).toEqual(sortedProductListByPrice[sortedProduct].description);
+
+        } 
     });
 
     it('sort the inventory items by name, Z-to-A', async () => {
+        await inventoryPage.sortOption.click();
+        await inventoryPage.sortProductNameInDescOrder.click();
+
+        var sortedProducts = await inventoryPage.inventoryProducts;
+
+        for(let sortedProduct in sortedProducts){
+            var sortedName = await sortedProducts[sortedProduct].$(inventory.productName).getText();
+            var sortedPrice = await sortedProducts[sortedProduct].$(inventory.productPrice).getText();
+            var sortedDesc = await sortedProducts[sortedProduct].$(inventory.productDescription).getText();
+            expect(sortedName).toEqual(sortedProductListByName[sortedProduct].name);
+            expect(sortedPrice).toEqual(sortedProductListByName[sortedProduct].price);
+            expect(sortedDesc).toEqual(sortedProductListByName[sortedProduct].description);
+        } 
     });
 
 

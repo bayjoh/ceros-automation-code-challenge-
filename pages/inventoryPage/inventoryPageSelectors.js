@@ -6,5 +6,9 @@ export const inventory = {
     productDescription : '.inventory_item_desc',
     totalCartItem : '.shopping_cart_badge',
     addToCartButton : '.btn_inventory',
-    viewCartButton : '.shopping_cart_link'
+    viewCartButton : '.shopping_cart_link',
+    sortNameDescOption : 'option[value="za"]',
+    sortPriceDescOption : 'option[value="hilo"]',
+    sortDropDown : '[data-test="product_sort_container"]'
+
 }
