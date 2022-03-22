@@ -7,6 +7,9 @@ class InventoryPage extends BasePage {
         super();
         this.inventoryHeader = $(inventory.titleHeader);
         this.inventoryProducts = $$(inventory.productList);
+        this.cartItemCount = $(inventory.totalCartItem);
+        this.addTocart = $$(inventory.addToCartButton);
+        this.viewCart = $(inventory.viewCartButton);
     }
 
 }
