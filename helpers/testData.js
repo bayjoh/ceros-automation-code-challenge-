@@ -8,7 +8,11 @@ export const pageData = {
     inventoryUrl : "https://www.saucedemo.com/inventory.html",
     productCount : 6,
     productQuantity : "1",
-    cartUrl : "https://www.saucedemo.com/cart.html"
+    cartUrl : "https://www.saucedemo.com/cart.html",
+    checkoutUrl : "https://www.saucedemo.com/checkout-step-one.html",
+    overviewUrl : "https://www.saucedemo.com/checkout-step-two.html",
+    thankYouMessage : "THANK YOU FOR YOUR ORDER",
+    thankYouImage : "https://www.saucedemo.com/static/media/pony-express.46394a5d.png"
 }
 
 export const productList = [{
@@ -43,3 +47,10 @@ export const productList = [{
 }
 
 ]
+
+export const userDetails = {
+    firstName : "Pelumi",
+    lastName : "Banjo",
+    postalCode : "23445"
+
+}

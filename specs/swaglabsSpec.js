@@ -3,10 +3,15 @@ import inventoryPage from "../pages/inventoryPage/inventoryPage";
 import { inventory } from "../pages/inventoryPage/inventoryPageSelectors";
 import  cartPage from "../pages/cartPage/cartPage";
 import { cart } from "../pages/cartPage/cartPageSelectors";
+import  checkoutPage from "../pages/checkoutPage/checkoutPage";
+import  overviewPage from "../pages/overviewPage/overviewPage";
+import { overview } from "../pages/overviewPage/overviewPageSelectors";
+import  thankYouPage from "../pages/thankYouPage/thankYouPage";
 
 import { loginDetails,
          pageData,
-         productList } from "../helpers/testData";
+         productList,
+         userDetails } from "../helpers/testData";
 
 describe ('Swag Labs tests', () => {
     beforeAll(async () => {
@@ -56,10 +61,36 @@ describe ('Swag Labs tests', () => {
     });
 
     it('should complete the purchase process of an item from the inventory', async () => {
+        await cartPage.checkoutButton.click();
+
+        expect(browser.getCurrentUrl()).toEqual(pageData.checkoutUrl);
+        await checkoutPage.submitCheckOutForm(userDetails.firstName,userDetails.lastName,userDetails.postalCode);
+
+        expect(browser.getCurrentUrl()).toEqual(pageData.overviewUrl);
+        var orderItem = await overviewPage.cartList.get(0);
+        var orderItemName = await orderItem.$(overview.productName);
+        var orderItemPrice = await orderItem.$(overview.productPrice);
+        var orderItemQuantity = await orderItem.$(overview.productQuantity);
+        expect(orderItemName.isDisplayed()).toBe(true);
+        expect(orderItemName.isDisplayed().getText()).toEqual(productList[0].name);
+        expect(orderItemPrice.isDisplayed()).toBe(true);
+        expect(orderItemPrice.isDisplayed().getText()).toEqual(productList[0].price);
+        expect(orderItemQuantity.isDisplayed()).toBe(true);
+        expect(orderItemQuantity.getText()).toEqual(pageData.productQuantity);
+        var summary = await overviewPage.summaryInfo;
+        summary.forEach(summaryInfo=> {
+            expect(summaryInfo.isDisplayed()).toBe(true);
+        });  
+        await overviewPage.finishButton.click();
+        expect(await thankYouPage.completeOrderText.getText()).toEqual("THANK YOU FOR YOUR ORDER");  
+        expect(await thankYouPage.completeOrderImage.getAttribute('src')).toEqual("https://www.saucedemo.com/static/media/pony-express.46394a5d.png");
+        expect(await thankYouPage.goHomeButton.isDisplayed()).toBe(true);
+        await thankYouPage.goHomeButton.click();
     });
 
     // BONUS tests! Not required for the automation challenge, but do these if you can.
     it('sort the inventory items by price, high-to-low', async () => {
+
     });
 
     it('sort the inventory items by name, Z-to-A', async () => {
