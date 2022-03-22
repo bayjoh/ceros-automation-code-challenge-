@@ -1,3 +1,4 @@
+# Ceros Ski QA Challenge
 ## Setup:
 * Install [Node](http://nodejs.org) (v8.x.x or later)
 * `npm i` to install the project dependencies
