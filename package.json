@@ -1,0 +1,24 @@
+{
+  "name": "ceros_inspire_code_challenge",
+  "version": "1.0.0",
+  "description": "A sample framework for writing tests to test Ceros Inspire ",
+  "engines": {
+    "node": "8.12.0"
+  },
+  "scripts": {
+    "prepare": "node_modules/.bin/webdriver-manager update",
+    "update": "node_modules/.bin/webdriver-manager update",
+    "test": "./flake conf.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "protractor": "5.4.2",
+    "chance": "1.0.16",
+    "jasmine-spec-reporter": "4.2.1",
+    "protractor-flake": "4.0.0"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.24.1"
+  }
+}
