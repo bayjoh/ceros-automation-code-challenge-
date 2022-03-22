@@ -6,6 +6,7 @@ class InventoryPage extends BasePage {
     constructor() {
         super();
         this.inventoryHeader = $(inventory.titleHeader);
+        this.inventoryProducts = $$(inventory.productList);
     }
 
 }

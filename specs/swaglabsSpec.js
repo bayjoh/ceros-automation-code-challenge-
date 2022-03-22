@@ -1,5 +1,6 @@
 import loginPage from "../pages/loginPage/loginPage";
 import inventoryPage from "../pages/inventoryPage/inventoryPage";
+import { inventory } from "../pages/inventoryPage/inventoryPageSelectors";
 
 import { loginDetails,
          pageData } from "../helpers/testData";
@@ -21,6 +22,13 @@ describe ('Swag Labs tests', () => {
     });
 
     it('should have 6 items on the inventory page', async () => {
+        var products = await inventoryPage.inventoryProducts;
+        expect(products.length).toEqual(pageData.productCount);  
+        products.forEach(async (product,index) => {
+            expect(await product.$(inventory.productName).getText()).toEqual(productList[index].name);
+            expect(await product.$(inventory.productPrice).getText()).toEqual(productList[index].price);
+            expect(await product.$(inventory.productDescription).getText()).toEqual(productList[index].description);
+        })  
     });
 
     it('should complete the purchase process of an item from the inventory', async () => {
